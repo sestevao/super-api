@@ -1,11 +1,19 @@
 {
-	"version": 2,
 	"builds": [
-	  { "src": "api/super-info.js", "use": "@vercel/node" },
-	  { "src": "web/package.json", "use": "@vercel/static-build" }
+	  {
+		"src": "web/package.json",
+		"use": "@vercel/static-build",
+		"config": {
+		  "distDir": "web/build"
+		}
+	  },
+	  {
+		"src": "api/**/*.js",
+		"use": "@vercel/node"
+	  }
 	],
 	"routes": [
-	  { "src": "/api/(.*)", "dest": "/api/super-info.js" },
-	  { "src": "/(.*)", "dest": "/web/$1" }
+	  { "src": "/api/(.*)", "dest": "/api/$1.js" },
+	  { "src": "/(.*)", "dest": "/web/build/$1" }
 	]
   }
