@@ -9,7 +9,7 @@ function App() {
   const fetchData = async () => {
     if (!country) return;
     try {
-      const res = await axios.get(`https://super-api-iota.vercel.app/super-info?country=${country}`);
+      const res = await axios.get(`https://super-api-xhm7.vercel.app/api/super-info?country=${country}`);
       setData(res.data);
       setError('');
     } catch (err) {
