@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import SuperInfoCard from './SuperInfoCard';
 
 function App() {
   const [country, setCountry] = useState('');
@@ -9,7 +10,7 @@ function App() {
   const fetchData = async () => {
     if (!country) return;
     try {
-      const res = await axios.get(`https://super-api-xhm7.vercel.app/api/super-info?country=${country}`);
+      const res = await axios.get(`/api/super-info?country=${country}`);
       setData(res.data);
       setError('');
     } catch (err) {
@@ -38,11 +39,11 @@ function App() {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {data && (
+      {/* {data && (
         <div className="bg-white rounded-lg shadow p-6 max-w-md text-center space-y-4">
           <h2 className="text-xl font-semibold">{data.country} ({data.capital})</h2>
           <img src={data.flag} alt="flag" className="w-32 mx-auto" />
-          <p>Population: {data.population.toLocaleString()}</p>
+          <p>Population: {data?.population ? data.population.toLocaleString() : 'N/A'}</p>
           <div>
             <h3 className="font-medium">🌦️ Weather</h3>
             <p>{data.weather.temperature}°C | Wind: {data.weather.windspeed} km/h</p>
@@ -65,7 +66,8 @@ function App() {
             <p>1 USD = {data.currencyConversion.rate} {data.currencyConversion.to}</p>
           </div>
         </div>
-      )}
+      )} */}
+      {data && <SuperInfoCard data={data} />}
     </div>
   );
 }
