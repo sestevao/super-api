@@ -1,6 +1,13 @@
+const express = require('express');
+const cors = require('cors');
 const axios = require('axios');
 
-module.exports = async (req, res) => {
+const app = express();
+const PORT = 3001;
+
+app.use(cors());
+
+app.get('/api/super-info', async (req, res) => {
     const country = req.query.country;
     if (!country) return res.status(400).json({ error: 'Country query parameter is required' });
 
@@ -53,4 +60,8 @@ module.exports = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Something went wrong', details: error.message });
     }
-};
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
