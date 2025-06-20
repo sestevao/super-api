@@ -4,7 +4,7 @@ A **React + Node.js "Super API" app** combining multiple free public APIs into a
 
 ## 🚀 Live Demo
 
-🔗 [https://your-vercel-project.vercel.app](https://your-vercel-project.vercel.app)
+🔗 [[https://your-vercel-project.vercel.app](https://super-api-xhm7.vercel.app/)
 *(Replace this link with your actual Vercel deployment URL)*
 
 ---
