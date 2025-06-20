@@ -6,16 +6,25 @@ function App() {
   const [country, setCountry] = useState('');
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     if (!country) return;
+    setLoading(true);
     try {
-      const res = await axios.get(`https://super-api-xhm7.vercel.app/api/super-info?country=${country}`);
+      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+      const res = await axios.get(`${API_BASE_URL}/api/super-info?country=${country}`);
+      console.log('res', res);
       setData(res.data);
       setError('');
     } catch (err) {
-      setError('Error fetching data');
+      if (err.response && err.response.status === 404) {
+        setError('Country not found');
+      } else {
+        setError('Network error or server issue');
+      }
     }
+    setLoading(false);
   };
 
   return (
@@ -39,34 +48,8 @@ function App() {
 
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* {data && (
-        <div className="bg-white rounded-lg shadow p-6 max-w-md text-center space-y-4">
-          <h2 className="text-xl font-semibold">{data.country} ({data.capital})</h2>
-          <img src={data.flag} alt="flag" className="w-32 mx-auto" />
-          <p>Population: {data?.population ? data.population.toLocaleString() : 'N/A'}</p>
-          <div>
-            <h3 className="font-medium">🌦️ Weather</h3>
-            <p>{data.weather.temperature}°C | Wind: {data.weather.windspeed} km/h</p>
-          </div>
-          <div>
-            <h3 className="font-medium">🎲 Fun Fact</h3>
-            <p>{data.funFact}</p>
-          </div>
-          <div>
-            <h3 className="font-medium">🖼️ Random Image</h3>
-            <img src={data.randomImage} alt="random" className="rounded mx-auto" />
-          </div>
-          <div>
-            <h3 className="font-medium">📚 Word of the Day</h3>
-            <p><strong>{data.wordOfTheDay.word}</strong>: {data.wordOfTheDay.meaning}</p>
-            <i>{data.wordOfTheDay.example}</i>
-          </div>
-          <div>
-            <h3 className="font-medium">💱 Currency Conversion</h3>
-            <p>1 USD = {data.currencyConversion.rate} {data.currencyConversion.to}</p>
-          </div>
-        </div>
-      )} */}
+      {loading && <p>Loading...</p>}
+
       {data && <SuperInfoCard data={data} />}
     </div>
   );
