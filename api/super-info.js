@@ -1,11 +1,4 @@
-const express = require('express');
-const cors = require('cors');
 const axios = require('axios');
-
-const app = express();
-const PORT = 3001;
-
-app.use(cors());
 
 async function fetchWithRetry(url, retries = 3, delay = 1000) {
   for (let i = 0; i < retries; i++) {
@@ -13,16 +6,21 @@ async function fetchWithRetry(url, retries = 3, delay = 1000) {
       return await axios.get(url);
     } catch (err) {
       if (i === retries - 1) throw err;
-      console.warn(`Retrying ${url} (${i + 1}/${retries})...`);
       await new Promise(r => setTimeout(r, delay));
     }
   }
 }
 
-app.get('/api/super-info', async (req, res) => {
+module.exports = async function handler(req, res) {
+  if (req.method !== 'GET') {
+    res.status(405).json({ error: 'Method not allowed' });
+    return;
+  }
+
   const country = req.query.country;
   if (!country) {
-    return res.status(400).json({ error: 'Country query parameter is required' });
+    res.status(400).json({ error: 'Country query parameter is required' });
+    return;
   }
 
   try {
@@ -75,8 +73,4 @@ app.get('/api/super-info', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Something went wrong', details: error.message });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`🚀 Local API server running at http://localhost:${PORT}/api/super-info`);
-});
+};
