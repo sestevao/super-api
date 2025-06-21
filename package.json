@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "api/super-info.js",
   "scripts": {
-    "start-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 node api/super-info.js"
+    "start-api": "NODE_TLS_REJECT_UNAUTHORIZED=0 node api/super-info-local.js"
   },
   "dependencies": {
     "axios": "^1.6.8",
