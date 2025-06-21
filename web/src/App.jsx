@@ -13,9 +13,8 @@ function App() {
     if (!country) return;
     setLoading(true);
     try {
-      const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
-      const res = await axios.get(`${API_BASE_URL}/api/super-info?country=${country}`);
-      console.log('res', res);
+      const res = await axios.get(`/api/super-info?country=${country}`);
+      console.log(res);
       setData(res.data);
       setError('');
     } catch (err) {
